@@ -12,21 +12,35 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  updateOctokitStats:
+  logOctokitStats:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      # fetch statistics for @octokit org
       - uses: ./dist
         id: stats
         with:
-          org: springroll
+          org: octokit
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-       - run: |
+      - run: |
           cat << EOF
           result: ${{ steps.stats.outputs.data }}
           EOF
+# jobs:
+#   updateOctokitStats:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v2
+#       # fetch statistics for @octokit org
+#       - uses: ./dist
+#         id: stats
+#         with:
+#           org: springroll
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        - run: |
+#           cat << EOF
+#           result: ${{ steps.stats.outputs.data }}
+#           EOF
       # append stats to data/octokit.csv
       # - uses: gr2m/write-csv-file-action@v1.x
       #   with:
