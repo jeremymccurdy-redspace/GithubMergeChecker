@@ -15,7 +15,8 @@ jobs:
   logOctokitStats:
     runs-on: ubuntu-latest
     steps:
-      - uses: ./
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/githubmergechecker
         id: stats
         with:
           org: octokit
