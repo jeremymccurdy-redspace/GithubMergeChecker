@@ -15,7 +15,7 @@ jobs:
   logOctokitStats:
     runs-on: ubuntu-latest
     steps:
-      - uses: ./dist
+      - uses: ./
         id: stats
         with:
           org: octokit
