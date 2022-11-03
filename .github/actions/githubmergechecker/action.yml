@@ -11,5 +11,5 @@ outputs:
   data:
     description: "stats as JSON string"
 runs:
-  using: "node18"
+  using: "node16"
   main: "dist/index.js"
