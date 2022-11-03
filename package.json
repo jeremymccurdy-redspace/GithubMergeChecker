@@ -1,0 +1,25 @@
+{
+  "name": "githubmergechecker",
+  "version": "0.1.0",
+  "description": "An action that checks if branches have gone stale and then outputs the result for review",
+  "main": "index.js",
+  "scripts": {
+    "build": "ncc build bin/githubmergechecker.js -o dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeremymccurdy-redspace/GithubMergeChecker.git"
+  },
+  "author": "Jeremy McCurdy",
+  "bugs": {
+    "url": "https://github.com/jeremymccurdy-redspace/GithubMergeChecker/issues"
+  },
+  "homepage": "https://github.com/jeremymccurdy-redspace/GithubMergeChecker#readme",
+  "dependencies": {
+    "@actions/core": "^1.10.0",
+    "@octokit/action": "^4.0.10"
+  },
+  "devDependencies": {
+    "@vercel/ncc": "^0.34.0"
+  }
+}
