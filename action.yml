@@ -1,0 +1,15 @@
+name: GitHub Organization Stats
+description: ""
+# branding:
+#   icon: "database"
+#   color: green
+inputs:
+  org:
+    description: "GitHub organization login"
+    required: true
+outputs:
+  data:
+    description: "stats as JSON string"
+runs:
+  using: "node18"
+  main: "dist/index.js"
