@@ -16,7 +16,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: First step
       - uses: ./.github/actions/githubmergechecker
         id: stats
         with:
