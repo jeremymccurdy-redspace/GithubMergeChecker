@@ -47,7 +47,7 @@ async function run(octokit, { org, output }) {
   
   for(let i =0; i< repoStats.length; i++)
   {
-    let filteredResult = data.nodes[i].refs.nodes.filter(node => 
+    let filteredResult = repoStats[i].refs.nodes.filter(node => 
       (validBranch(node)) &&
       (numberOfWeeksBetweenDates(new Date(node.target.committedDate), new Date()) <= 4));
       if(filteredResult.length > 0)
