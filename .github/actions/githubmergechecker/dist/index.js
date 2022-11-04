@@ -58,8 +58,8 @@ async function run(octokit, { org, output }) {
     process.stdout.write(`filteredResults: ${JSON.stringify(filteredResults)}\n`);
     for(let j=0; j< filteredResults.refs.nodes.length; i++)
     {
-      filteredResults.refs.nodes[j].timeSinceMerge = numberOfWeeksBetweenDates(
-                                                    new Date(filteredResults.refs.nodes[j].target.committedDate), 
+      filteredResults[j].timeSinceMerge = numberOfWeeksBetweenDates(
+                                                    new Date(filteredResults[j].target.committedDate), 
                                                     new Date());
     }
 
