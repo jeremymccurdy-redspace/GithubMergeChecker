@@ -64,5 +64,5 @@ async function run(octokit, { org, output }) {
     }
   );
 
-  core.setOutput("data", JSON.stringify(orgStats, null, 2) + "\n");
+  core.setOutput("data", JSON.stringify(repoStats, null, 2) + "\n");
 }
