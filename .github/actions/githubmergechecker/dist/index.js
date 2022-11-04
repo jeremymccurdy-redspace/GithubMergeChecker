@@ -55,7 +55,7 @@ async function run(octokit, { org, output }) {
   {
     //process.stdout.write(`Looping through stats: ${JSON.stringify(repoStats[i].refs)}\n`);
     let filteredResults = repoStats[i].refs.nodes.filter(node => (validBranch(node)));
-    process.stdout.write(`filteredResults: ${JSON.stringify(filteredResults)}\n`);
+    
     for(let j=0; j< filteredResults.length; j++)
     {
       filteredResults[j].timeSinceMerge = numberOfWeeksBetweenDates(
@@ -66,8 +66,8 @@ async function run(octokit, { org, output }) {
     repoStats[i].refs.nodes = filteredResults;
   }
 
-
-  core.setOutput("data", JSON.stringify(filteredResults, null, 2) + "\n");
+  //process.stdout.write(`filteredResults: ${JSON.stringify(filteredResults)}\n`);
+  core.setOutput("data", JSON.stringify(repoStats, null, 2) + "\n");
 }
 
 // A branch that is either some variant of "main" or "develop", ignores other branches
