@@ -53,13 +53,12 @@ async function run(octokit, { org, output }) {
   
   for(let i =0; i< repoStats.length; i++)
   {
-    let filteredResult = repoStats[i].refs.nodes.filter(node => 
-      (validBranch(node)) &&
-      (numberOfWeeksBetweenDates(new Date(node.target.committedDate), new Date()) <= 4));
-      if(filteredResult.length > 0)
-      {
-        filteredResults.push(filteredResult);
-      }
+    
+    repoStats[i].refs.nodes = repoStats[i].refs.nodes.filter(node => (validBranch(node)));
+    for(let j=0; j< repoStats[i].refs.nodes.length; i++)
+    {
+      repoStats[i].refs.nodes[j].timeSinceMerge = numberOfWeeksBetweenDates(new Date(repoStats[i].refs.nodes[j].target.committedDate), new Date());
+    }
   }
   
   // const orgStats = repoStats.reduce(
@@ -83,7 +82,7 @@ async function run(octokit, { org, output }) {
   //   }
   // );
 
-  core.setOutput("data", JSON.stringify(filteredResults, null, 2) + "\n");
+  core.setOutput("data", JSON.stringify(repoStats, null, 2) + "\n");
 }
 
 // A branch that is either some variant of "main" or "develop", ignores other branches
