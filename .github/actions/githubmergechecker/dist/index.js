@@ -63,11 +63,11 @@ async function run(octokit, { org, output }) {
                                                     new Date());
     }
 
-    repoStats[i].refs.nodes = filteredResults;
+    //repoStats[i].refs.nodes = filteredResults;
   }
 
 
-  core.setOutput("data", JSON.stringify(repoStats, null, 2) + "\n");
+  core.setOutput("data", JSON.stringify(filteredResults, null, 2) + "\n");
 }
 
 // A branch that is either some variant of "main" or "develop", ignores other branches
