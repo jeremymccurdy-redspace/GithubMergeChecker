@@ -53,7 +53,7 @@ async function run(octokit, { org, output }) {
   
   for(let i =0; i< repoStats.length; i++)
   {
-    
+    process.stdout.write(`Looping through stats: ${JSON.stringify(repoStats[i])}`);
     repoStats[i].refs.nodes = repoStats[i].refs.nodes.filter(node => (validBranch(node)));
     for(let j=0; j< repoStats[i].refs.nodes.length; i++)
     {
