@@ -47,34 +47,16 @@ async function run(octokit, { org, output }) {
   
   for(let i =0; i< repoStats.length; i++)
   {
-    process.stdout.write(`Looping through stats: ${JSON.stringify(repoStats[i])}`);
+    process.stdout.write(`Looping through stats: ${JSON.stringify(repoStats[i].refs)}`);
     repoStats[i].refs.nodes = repoStats[i].refs.nodes.filter(node => (validBranch(node)));
     for(let j=0; j< repoStats[i].refs.nodes.length; i++)
     {
-      repoStats[i].refs.nodes[j].timeSinceMerge = numberOfWeeksBetweenDates(new Date(repoStats[i].refs.nodes[j].target.committedDate), new Date());
+      repoStats[i].refs.nodes[j].timeSinceMerge = numberOfWeeksBetweenDates(
+                                                    new Date(repoStats[i].refs.nodes[j].target.committedDate), 
+                                                    new Date());
     }
   }
-  
-  // const orgStats = repoStats.reduce(
-  //   (orgStats, repo) => {
-  //     if (repo.isArchived) {
-  //       return orgStats;
-  //     }
 
-  //     for (const key of Object.keys(orgStats)) {
-  //       orgStats[key] += repo[key].totalCount;
-  //     }
-
-  //     return orgStats;
-  //   },
-  //   {
-  //       name: "",
-  //     /*closedIssues: 0,
-  //     openPullRequests: 0,
-  //     closedPullRequests: 0,
-  //     mergedPullRequests: 0,*/
-  //   }
-  // );
 
   core.setOutput("data", JSON.stringify(repoStats, null, 2) + "\n");
 }
