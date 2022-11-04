@@ -50,14 +50,14 @@ async function run(octokit, { org, output }) {
     //process.stdout.write(`Looping through stats: ${JSON.stringify(repoStats[i].refs)}\n`);
     let filteredResults = repoStats[i].refs.nodes.filter(node => (validBranch(node)));
     process.stdout.write(`filteredResults: ${JSON.stringify(filteredResults)}\n`);
-    for(let j=0; j< filteredResults.length; i++)
+    for(let j=0; j< filteredResults.length; j++)
     {
       filteredResults[j].timeSinceMerge = numberOfWeeksBetweenDates(
                                                     new Date(filteredResults[j].target.committedDate), 
                                                     new Date());
     }
 
-    //repoStats[i].refs.nodes = filteredResults;
+    repoStats[i].refs.nodes = filteredResults;
   }
 
 
