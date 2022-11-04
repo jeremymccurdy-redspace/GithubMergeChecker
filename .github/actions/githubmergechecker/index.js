@@ -5,7 +5,7 @@ const core = require("@actions/core");
 async function run(octokit, { org, output }) {
   const query = `query ($org: String!, $after: String) {
     organization(login: $org) {
-        repositories(first: 30, privacy: PUBLIC, after:$after) {
+        repositories(first: 100, privacy: PUBLIC, after:$after) {
             totalCount
             pageInfo {
                 endCursor
@@ -32,6 +32,7 @@ async function run(octokit, { org, output }) {
   process.stdout.write(`Requesting repo stats for ${org} `);
   const repoStats = [];
   let result;
+  let filteredResults = [];
   do {
     result = await octokit.graphql(query, {
       org,
@@ -43,7 +44,18 @@ async function run(octokit, { org, output }) {
     process.stdout.write(".");
   } while (result.organization.repositories.pageInfo.hasNextPage);
   process.stdout.write("\n");
-
+  
+  for(let i =0; i< repoStats.length; i++)
+  {
+    let filteredResult = data.nodes[i].refs.nodes.filter(node => 
+      (validBranch(node)) &&
+      (numberOfWeeksBetweenDates(new Date(node.target.committedDate), new Date()) <= 4));
+      if(filteredResult.length > 0)
+      {
+        filteredResults.push(filteredResult);
+      }
+  }
+  
   // const orgStats = repoStats.reduce(
   //   (orgStats, repo) => {
   //     if (repo.isArchived) {
@@ -65,5 +77,20 @@ async function run(octokit, { org, output }) {
   //   }
   // );
 
-  core.setOutput("data", JSON.stringify(repoStats, null, 2) + "\n");
+  core.setOutput("data", JSON.stringify(filteredResults, null, 2) + "\n");
+}
+
+// A branch that is either some variant of "main" or "develop", ignores other branches
+function validBranch(node)
+{
+  if(node.name == "develop" ||node.name == "master" ||  node.name == "dev" || node.name == "main") return true;
+  return false;
+}
+
+// Returns how many weeks have passed between two dates
+//Reference: https://bobbyhadz.com/blog/javascript-get-number-of-weeks-between-two-dates
+function numberOfWeeksBetweenDates(startDate, endDate)
+{
+  const msInWeek = 1000 * 60 * 60 * 24 * 7;
+  return Math.round(Math.abs(endDate - startDate) / msInWeek);
 }
