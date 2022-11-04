@@ -13,6 +13,7 @@ async function run(octokit, { org, output }) {
               }
             nodes {
                 name
+                isArchived
                 refs(first: 100, refPrefix: "refs/heads/") {
                   nodes {
                     name
@@ -43,26 +44,26 @@ async function run(octokit, { org, output }) {
   } while (result.organization.repositories.pageInfo.hasNextPage);
   process.stdout.write("\n");
 
-  const orgStats = repoStats.reduce(
-    (orgStats, repo) => {
-      if (repo.isArchived) {
-        return orgStats;
-      }
+  // const orgStats = repoStats.reduce(
+  //   (orgStats, repo) => {
+  //     if (repo.isArchived) {
+  //       return orgStats;
+  //     }
 
-      for (const key of Object.keys(orgStats)) {
-        orgStats[key] += repo[key].totalCount;
-      }
+  //     for (const key of Object.keys(orgStats)) {
+  //       orgStats[key] += repo[key].totalCount;
+  //     }
 
-      return orgStats;
-    },
-    {
-        name: "",
-      /*closedIssues: 0,
-      openPullRequests: 0,
-      closedPullRequests: 0,
-      mergedPullRequests: 0,*/
-    }
-  );
+  //     return orgStats;
+  //   },
+  //   {
+  //       name: "",
+  //     /*closedIssues: 0,
+  //     openPullRequests: 0,
+  //     closedPullRequests: 0,
+  //     mergedPullRequests: 0,*/
+  //   }
+  // );
 
   core.setOutput("data", JSON.stringify(repoStats, null, 2) + "\n");
 }

@@ -19,7 +19,7 @@ jobs:
       - uses: ./.github/actions/githubmergechecker
         id: stats
         with:
-          org: octokit
+          org: springroll
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: |
