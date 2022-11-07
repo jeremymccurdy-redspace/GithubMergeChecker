@@ -9,10 +9,10 @@ module.exports = run;
 const core = __nccwpck_require__(2186);
 
 class RepoData {
-  constructor(name, weeksSinceDevBranchMerge) {
+  constructor(name, weeksSinceMainBranchMerge, weeksSinceDevBranchMerge) {
     this.name = name;
-    this.weeksSinceDevBranchMerge = weeksSinceDevBranchMerge
-    this.weeksSinceMainBranchMerge = weeksSinceMainBranchMerge
+    this.weeksSinceMainBranchMerge = weeksSinceMainBranchMerge;
+    this.weeksSinceDevBranchMerge = weeksSinceDevBranchMerge;
   }
 }
 

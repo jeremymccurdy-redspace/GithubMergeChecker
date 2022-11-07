@@ -3,10 +3,10 @@ module.exports = run;
 const core = require("@actions/core");
 
 class RepoData {
-  constructor(name, weeksSinceDevBranchMerge) {
+  constructor(name, weeksSinceMainBranchMerge, weeksSinceDevBranchMerge) {
     this.name = name;
-    this.weeksSinceDevBranchMerge = weeksSinceDevBranchMerge
-    this.weeksSinceMainBranchMerge = weeksSinceMainBranchMerge
+    this.weeksSinceMainBranchMerge = weeksSinceMainBranchMerge;
+    this.weeksSinceDevBranchMerge = weeksSinceDevBranchMerge;
   }
 }
 
