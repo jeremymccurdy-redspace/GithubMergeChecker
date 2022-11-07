@@ -61,7 +61,8 @@ async function run(octokit, { org,path, output }) {
     let mainBranches = repoStats[i].refs.nodes.filter(node => (isMainBranch(node)));
     let devBranches = repoStats[i].refs.nodes.filter(node => (isDevBranch(node)));
 
-    let weeksSinceMainMerge, weeksSinceDevMerge = -1;
+    let weeksSinceMainMerge = -1;
+    let weeksSinceDevMerge = -1;
     
     if(mainBranches.length > 0) {
       weeksSinceMainMerge = numberOfWeeksBetweenDates(
