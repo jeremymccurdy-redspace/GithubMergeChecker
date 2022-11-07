@@ -40,10 +40,10 @@ jobs:
       - uses: gr2m/write-csv-file-action@v1.0.4
         with:
           path: data/octokit.csv
-          columns: repository name,weeks since main merge,weeks since dev merge
-          "repository name": ${{ fromJson(steps.stats.outputs.data).name }}
-          # "weeks since main merge": ${{ fromJson(steps.stats.outputs.data).weeksSinceMainBranchMerge }}
-          # "weeks since dev merge": ${{ fromJson(steps.stats.outputs.data).weeksSinceDevBranchMerge }}
+          columns: open issues,closed issues,open pull requests
+          "open issues": ${{ fromJson(steps.stats.outputs.data).name }}
+          "closed issues": ${{ fromJson(steps.stats.outputs.data).weeksSinceMainBranchMerge }}
+          "open pull requests": ${{ fromJson(steps.stats.outputs.data).weeksSinceDevBranchMerge }}
       # push updated file back to main branch
       - run: git config --local user.email "action@github.com"
       - run: git config --local user.name "GitHub Action"
