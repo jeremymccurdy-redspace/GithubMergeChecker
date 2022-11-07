@@ -86,6 +86,8 @@ async function run(octokit, { org,path, output }) {
     rows.push(rowData);
   }
   
+  rowData = "Last Updated," + new Date().toLocaleDateString() +", weeks since dev merge";
+  rows.push(rowData);
 
   await makeDir(dirname(path));
   writeFileSync(path, rows.join("\n"),{encoding:'utf8',flag:'w'});
