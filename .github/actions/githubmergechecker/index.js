@@ -62,13 +62,13 @@ async function run(octokit, { org, output }) {
     
     if(mainBranches.length > 0) {
       weeksSinceMainMerge = numberOfWeeksBetweenDates(
-        new Date(mainBranches[j].target.committedDate), 
+        new Date(mainBranches[0].target.committedDate), 
         new Date());
     }
 
     if(devBranches.length > 0) {
       weeksSinceDevMerge = numberOfWeeksBetweenDates(
-        new Date(devBranches[j].target.committedDate), 
+        new Date(devBranches[0].target.committedDate), 
         new Date());
     }
 
