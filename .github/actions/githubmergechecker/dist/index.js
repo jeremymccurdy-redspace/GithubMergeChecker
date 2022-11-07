@@ -89,7 +89,7 @@ async function run(octokit, { org,path, output }) {
   for(let i = 0; i< filteredResults.length; i++) 
   {
     rowData = filteredResults[i].name + "," + filteredResults[i].weeksSinceMainBranchMerge + "," + filteredResults[i].weeksSinceDevBranchMerge + "\n"
-    rows.push(stringify(data));
+    rows.push(data);
   }
   
 
