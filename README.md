@@ -5,7 +5,8 @@ Checks a github organization's repositories and outputs a CSV report of how many
 https://github.com/gr2m/org-stats-action - The foundation of this project uses an extremely modified version of this action.
 https://github.com/gr2m/write-csv-file-action - The CSV output of this project was used as reference to output CSV from the action
 
-The license for those repos is as follows: 
+## The license for those repos is as follows:
+
 Copyright 2020 Gregor Martynus
 
 Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.
