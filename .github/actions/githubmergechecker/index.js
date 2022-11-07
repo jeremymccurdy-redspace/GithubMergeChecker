@@ -78,17 +78,17 @@ async function run(octokit, { org,path, output }) {
     filteredResults.push(new RepoData(repoStats[i].name, weeksSinceMainMerge, weeksSinceDevMerge));
   }
   const rows = [];
-  let rowData = "repo name, weeks since main merge, weeks since dev merge" + "\n";
+  let rowData = "repo name, weeks since main merge, weeks since dev merge";
   rows.push(rowData);
   for(let i = 0; i< filteredResults.length; i++) 
   {
-    rowData =  "\n" + filteredResults[i].name + "," + filteredResults[i].weeksSinceMainBranchMerge + "," + filteredResults[i].weeksSinceDevBranchMerge
+    rowData =  filteredResults[i].name + "," + filteredResults[i].weeksSinceMainBranchMerge + "," + filteredResults[i].weeksSinceDevBranchMerge;
     rows.push(rowData);
   }
   
 
   await makeDir(dirname(path));
-  appendFileSync(path, rows.join(""));
+  appendFileSync(path, rows.join("\n"));
 
   core.setOutput("data", JSON.stringify(filteredResults, null, 2) + "\n");
 }
