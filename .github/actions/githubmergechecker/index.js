@@ -55,7 +55,7 @@ async function run(octokit, { org,path, output }) {
     process.stdout.write(".");
   } while (result.organization.repositories.pageInfo.hasNextPage);
   process.stdout.write("\n");
-  
+  const currentDate = new Date();
   for(let i =0; i< repoStats.length; i++)
   {
     let mainBranches = repoStats[i].refs.nodes.filter(node => (isMainBranch(node)));
@@ -66,13 +66,13 @@ async function run(octokit, { org,path, output }) {
     if(mainBranches.length > 0) {
       weeksSinceMainMerge = numberOfWeeksBetweenDates(
         new Date(mainBranches[0].target.committedDate), 
-        new Date());
+        currentDate);
     }
 
     if(devBranches.length > 0) {
       weeksSinceDevMerge = numberOfWeeksBetweenDates(
         new Date(devBranches[0].target.committedDate), 
-        new Date());
+        currentDate);
     }
 
     filteredResults.push(new RepoData(repoStats[i].name, weeksSinceMainMerge, weeksSinceDevMerge));
@@ -86,7 +86,7 @@ async function run(octokit, { org,path, output }) {
     rows.push(rowData);
   }
   
-  rowData = "Last Updated," + new Date().toLocaleDateString() +", weeks since dev merge";
+  rowData = "Last Updated," + currentDate.toLocaleDateString()+ currentDate.toLocaleTimeString() +",_";
   rows.push(rowData);
 
   await makeDir(dirname(path));
