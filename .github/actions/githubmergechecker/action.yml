@@ -7,6 +7,9 @@ inputs:
   org:
     description: "GitHub organization login"
     required: true
+  path:
+    description: "Relative path to .csv file (example: data/stats.csv)"
+    required: true
 outputs:
   data:
     description: "stats as JSON string"

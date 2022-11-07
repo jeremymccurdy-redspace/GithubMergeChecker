@@ -34,21 +34,14 @@ jobs:
         id: stats
         with:
           org: springroll
+          path: data/springrollOrg.csv
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      # append stats to data/octokit.csv
-      - uses: gr2m/write-csv-file-action@v1.0.4
-        with:
-          path: data/octokit.csv
-          columns: open issues,closed issues,open pull requests
-          "open issues": ${{ fromJson(steps.stats.outputs.data).name }}
-          "closed issues": ${{ fromJson(steps.stats.outputs.data).weeksSinceMainBranchMerge }}
-          "open pull requests": ${{ fromJson(steps.stats.outputs.data).weeksSinceDevBranchMerge }}
       # push updated file back to main branch
       - run: git config --local user.email "action@github.com"
       - run: git config --local user.name "GitHub Action"
       - run: git add data
-      - run: git commit -m "data/octokit.csv updated"
+      - run: git commit -m "data/springrollOrg.csv updated"
       - run: "git push https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git HEAD"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

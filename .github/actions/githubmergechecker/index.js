@@ -1,6 +1,11 @@
 module.exports = run;
 
 const core = require("@actions/core");
+const { dirname } = require("path");
+const { existsSync, appendFileSync } = require("fs");
+
+const { stringify } = require("csv-string");
+const makeDir = require("make-dir");
 
 class RepoData {
   constructor(name, weeksSinceMainBranchMerge, weeksSinceDevBranchMerge) {
@@ -10,7 +15,7 @@ class RepoData {
   }
 }
 
-async function run(octokit, { org, output }) {
+async function run(octokit, { org,path, output }) {
   const query = `query ($org: String!, $after: String) {
     organization(login: $org) {
         repositories(first: 100, privacy: PUBLIC, after:$after) {
@@ -72,17 +77,21 @@ async function run(octokit, { org, output }) {
         new Date());
     }
 
-    /*for(let j=0; j< filteredResults.length; j++)
-    {
-      filteredResults[j].weeksSinceMerge = numberOfWeeksBetweenDates(
-                                                    new Date(filteredResults[j].target.committedDate), 
-                                                    new Date());
-    }*/
-
     filteredResults.push(new RepoData(repoStats[i].name, weeksSinceMainMerge, weeksSinceDevMerge));
   }
+  const rows = [];
+  let rowData = "repo name, weeks since main merge, weeks since dev merge";
+  rows.push(rowData);
+  for(let i = 0; i< filteredResults.length; i++) 
+  {
+    rowData = filteredResults[i].name + "," + filteredResults[i].weeksSinceMainBranchMerge + "," + filteredResults[i].weeksSinceDevBranchMerge + "\n"
+    rows.push(stringify(data));
+  }
+  
 
-  //process.stdout.write(`filteredResults: ${JSON.stringify(filteredResults)}\n`);
+  await makeDir(dirname(path));
+  appendFileSync(path, rows.join(""));
+
   core.setOutput("data", JSON.stringify(filteredResults, null, 2) + "\n");
 }
 

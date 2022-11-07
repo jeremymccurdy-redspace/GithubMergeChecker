@@ -7,6 +7,7 @@ const octokit = new Octokit();
 
 run(octokit, {
   org: core.getInput("org"),
+  path: core.getInput("path"),
   output: core.getInput("output"),
 }).catch((error) => {
   console.error(error);
