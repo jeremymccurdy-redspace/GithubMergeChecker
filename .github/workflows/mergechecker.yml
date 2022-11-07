@@ -12,26 +12,25 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  logOctokitStats:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: ./.github/actions/githubmergechecker
-        id: stats
-        with:
-          org: springroll
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: |
-          cat << EOF
-          result: ${{ steps.stats.outputs.data }}
-          EOF
+  # logOctokitStats:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: ./.github/actions/githubmergechecker
+  #       id: stats
+  #       with:
+  #         org: springroll
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #     - run: |
+  #         cat << EOF
+  #         result: ${{ steps.stats.outputs.data }}
+  #         EOF
   updateOctokitStats:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      # fetch statistics for @octokit org
-     - uses: ./.github/actions/githubmergechecker
+      - uses: ./.github/actions/githubmergechecker
         id: stats
         with:
           org: springroll
