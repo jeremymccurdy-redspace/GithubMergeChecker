@@ -3,8 +3,6 @@ module.exports = run;
 const core = require("@actions/core");
 const { dirname } = require("path");
 const { existsSync, appendFileSync } = require("fs");
-
-const { stringify } = require("csv-string");
 const makeDir = require("make-dir");
 
 class RepoData {

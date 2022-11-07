@@ -9,8 +9,6 @@ module.exports = run;
 const core = __nccwpck_require__(2186);
 const { dirname } = __nccwpck_require__(1017);
 const { existsSync, appendFileSync } = __nccwpck_require__(7147);
-
-const { stringify } = __nccwpck_require__(901);
 const makeDir = __nccwpck_require__(7972);
 
 class RepoData {
@@ -10891,14 +10889,6 @@ function wrappy (fn, cb) {
     return ret
   }
 }
-
-
-/***/ }),
-
-/***/ 901:
-/***/ ((module) => {
-
-module.exports = eval("require")("csv-string");
 
 
 /***/ }),
