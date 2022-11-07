@@ -8,6 +8,14 @@ module.exports = run;
 
 const core = __nccwpck_require__(2186);
 
+class RepoData {
+  constructor(name, weeksSinceDevBranchMerge) {
+    this.name = name;
+    this.weeksSinceDevBranchMerge = weeksSinceDevBranchMerge
+    this.weeksSinceMainBranchMerge = weeksSinceMainBranchMerge
+  }
+}
+
 async function run(octokit, { org, output }) {
   const query = `query ($org: String!, $after: String) {
     organization(login: $org) {
@@ -53,27 +61,47 @@ async function run(octokit, { org, output }) {
   
   for(let i =0; i< repoStats.length; i++)
   {
-    //process.stdout.write(`Looping through stats: ${JSON.stringify(repoStats[i].refs)}\n`);
-    let filteredResults = repoStats[i].refs.nodes.filter(node => (validBranch(node)));
+    let mainBranches = repoStats[i].refs.nodes.filter(node => (isMainBranch(node)));
+    let devBranches = repoStats[i].refs.nodes.filter(node => (isDevBranch(node)));
+
+    let weeksSinceMainMerge, weeksSinceDevMerge = -1;
     
-    for(let j=0; j< filteredResults.length; j++)
-    {
-      filteredResults[j].timeSinceMerge = numberOfWeeksBetweenDates(
-                                                    new Date(filteredResults[j].target.committedDate), 
-                                                    new Date());
+    if(mainBranches.length > 0) {
+      weeksSinceMainMerge = numberOfWeeksBetweenDates(
+        new Date(mainBranches[j].target.committedDate), 
+        new Date());
     }
 
-    repoStats[i].refs.nodes = filteredResults;
+    if(devBranches.length > 0) {
+      weeksSinceDevMerge = numberOfWeeksBetweenDates(
+        new Date(devBranches[j].target.committedDate), 
+        new Date());
+    }
+
+    /*for(let j=0; j< filteredResults.length; j++)
+    {
+      filteredResults[j].weeksSinceMerge = numberOfWeeksBetweenDates(
+                                                    new Date(filteredResults[j].target.committedDate), 
+                                                    new Date());
+    }*/
+
+    filteredResults.push(new RepoData(repoStats[i].name, weeksSinceMainMerge, weeksSinceDevMerge));
   }
 
   //process.stdout.write(`filteredResults: ${JSON.stringify(filteredResults)}\n`);
-  core.setOutput("data", JSON.stringify(repoStats, null, 2) + "\n");
+  core.setOutput("data", JSON.stringify(filteredResults, null, 2) + "\n");
 }
 
 // A branch that is either some variant of "main" or "develop", ignores other branches
-function validBranch(node)
+function isMainBranch(node)
 {
-  if(node.name == "develop" ||node.name == "master" ||  node.name == "dev" || node.name == "main") return true;
+  if(node.name == "master" || node.name == "main") return true;
+  return false;
+}
+
+function isDevBranch(node)
+{
+  if(node.name == "develop" ||  node.name == "dev") return true;
   return false;
 }
 
