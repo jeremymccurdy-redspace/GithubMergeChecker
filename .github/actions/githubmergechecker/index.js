@@ -2,7 +2,7 @@ module.exports = run;
 
 const core = require("@actions/core");
 const { dirname } = require("path");
-const { writeFile } = require("fs");
+const { writeFileSync } = require("fs");
 const makeDir = require("make-dir");
 
 class RepoData {
@@ -88,7 +88,7 @@ async function run(octokit, { org,path, output }) {
   
 
   await makeDir(dirname(path));
-  writeFile(path, rows.join("\n"));
+  writeFileSync(path, rows.join("\n"),{encoding:'utf8',flag:'w'});
 
   core.setOutput("data", JSON.stringify(filteredResults, null, 2) + "\n");
 }

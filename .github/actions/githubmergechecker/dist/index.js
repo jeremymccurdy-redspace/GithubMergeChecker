@@ -8,7 +8,7 @@ module.exports = run;
 
 const core = __nccwpck_require__(2186);
 const { dirname } = __nccwpck_require__(1017);
-const { writeFile } = __nccwpck_require__(7147);
+const { writeFileSync } = __nccwpck_require__(7147);
 const makeDir = __nccwpck_require__(9126);
 
 class RepoData {
@@ -94,7 +94,7 @@ async function run(octokit, { org,path, output }) {
   
 
   await makeDir(dirname(path));
-  writeFile(path, rows.join("\n"));
+  writeFileSync(path, rows.join("\n"),{encoding:'utf8',flag:'w'});
 
   core.setOutput("data", JSON.stringify(filteredResults, null, 2) + "\n");
 }
